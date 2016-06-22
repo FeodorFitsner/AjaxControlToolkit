@@ -5,6 +5,11 @@ os: Visual Studio 2013
 init:
   - git config --global core.autocrlf true
 
+install:
+- ps: $zipPath = "$($env:TEMP)\Appveyor.NUnit3Logger.zip"
+- ps: (New-Object Net.WebClient).DownloadFile('http://www.appveyor.com/downloads/Appveyor.NUnit3Logger.zip', $zipPath)
+- ps: 7z x $zipPath -y -o"C:\Tools\NUnit3\bin\addins" | Out-Null
+  
 environment:
   AjaxControlToolkitTestSiteUrl: http://localhost/TestRunner.aspx
 
