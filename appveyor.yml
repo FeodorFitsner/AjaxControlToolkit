@@ -14,7 +14,6 @@ environment:
   AjaxControlToolkitTestSiteUrl: http://localhost/TestRunner.aspx
 
 configuration:
-  - Release
   - Debug
  
 cache:
