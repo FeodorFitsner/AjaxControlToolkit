@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Suites/Suite.Master" AutoEventWireup="true" CodeBehind="ValidatorCalloutUpdatePanelUnobtrusiveTests.aspx.cs" Inherits="AjaxControlToolkit.Jasmine.Suites.ValidatorCalloutUpdatePanelUnobtrusiveTests" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Suites/Suite.Master" AutoEventWireup="True" CodeBehind="ValidatorCalloutUpdatePanelUnobtrusiveTests.aspx.cs" Inherits="AjaxControlToolkit.Jasmine.Suites.ValidatorCalloutUpdatePanelUnobtrusiveTests" %>
 
 <asp:Content ContentPlaceHolderID="TestSuiteName" runat="server">
     ValidatorCallout (unobtrusive validation)
@@ -66,17 +66,23 @@
                 });
 
                 it("validates inside UpdatePanel after postback", function(done) {
+                    postBackCount = 0;
                     $("#" + POSTBACK_BUTTON_CLIENT_ID).click();
 
-                    setTimeout(function() {
-                        $("#" + SAVE_BUTTON_CLIENT_ID).click();
+                    waitFor(
+                        function() {
+                            return postBackCount === 1;
+                        },
+                        function() {
+                            $("#" + SAVE_BUTTON_CLIENT_ID).click();
 
-                        setTimeout(function() {
-                            var $container = $("#" + UPDATEPANEL_VALIDATOR_CALLOUT_EXTENDER_CLIENT_ID + "_popupTable");
-                            expect($container.is(":visible")).toBeTruthy();
-                            done();
-                        }, 500);
-                    }, 500);
+                            waitFor(
+                                function() {
+                                    var $container = $("#" + UPDATEPANEL_VALIDATOR_CALLOUT_EXTENDER_CLIENT_ID + "_popupTable");
+                                    return $container.is(":visible");
+                                },
+                                done);
+                        });                    
                 });
 
                 it("validates inside UpdatePanel after 2 postbacks", function(done) {
